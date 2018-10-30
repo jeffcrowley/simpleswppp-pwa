@@ -13,6 +13,8 @@ class InfoForm extends Component {
         : this.setState({ formHasError: true });
     } else if (e.target.value.length < 5) {
       this.setState({ formHasError: false });
+    } else if (e.target.value.length > 5) {
+      this.setState({ formHasError: true });
     }
   };
 
@@ -24,7 +26,15 @@ class InfoForm extends Component {
         }`
       )
       .then(response => response.json())
-      .then(data => console.log(data))
+      .then(data => {
+        console.log(data);
+        if (data.cod === "404") {
+          console.log(`data.cod: ${data.cod}`);
+          this.setState({ formHasError: true });
+        } else {
+          this.props.addDataToState(data);
+        }
+      })
       .catch(err => console.log(err));
   };
 
@@ -34,7 +44,7 @@ class InfoForm extends Component {
         <Segment>
           <Form error>
             <Form.Field>
-              <label>Enter Your Jobsite ZIP Code</label>
+              <label>Enter Your 5 Digit Jobsite ZIP Code</label>
               <input placeholder="e.g.: 90210" onChange={this.handleChange} />
               {this.state.formHasError && (
                 <Message

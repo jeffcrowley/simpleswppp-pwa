@@ -12,7 +12,7 @@ class Main extends Component {
             <Heading />
           </Container>
         </header>
-        <InfoForm />
+        <InfoForm addDataToState={this.props.addDataToState} />
       </div>
     );
   }
