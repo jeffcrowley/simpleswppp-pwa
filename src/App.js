@@ -1,19 +1,33 @@
 import React, { Component } from "react";
 import Main from "./Components/Main";
+import WeatherReport from "./Components/WeatherReport";
 
 class App extends Component {
   state = {
-    apiData: {},
+    apiData: [],
     zipCode: null
   };
 
-  addDataToState = data => {
-    this.setState({ apiData: data });
+  addDataToState = (data, zip) => {
+    this.setState({ apiData: data, zipCode: zip });
   };
+
+  resetState = () => {
+    this.setState({ apiData: [], zipCode: null });
+  };
+
   render() {
     return (
       <div>
-        <Main addDataToState={this.addDataToState} />
+        {this.state.apiData.cod === "200" && this.state.zipCode ? (
+          <WeatherReport
+            apiData={this.state.apiData}
+            zipCode={this.state.zipCode}
+            resetState={this.resetState}
+          />
+        ) : (
+          <Main addDataToState={this.addDataToState} />
+        )}
       </div>
     );
   }

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Form, Segment, Message } from "semantic-ui-react";
+import { Form, Segment, Message, Loader } from "semantic-ui-react";
 
 class InfoForm extends Component {
   state = {
-    formHasError: false
+    formHasError: false,
+    loaderIsRendered: false
   };
 
   handleChange = e => {
@@ -19,6 +20,7 @@ class InfoForm extends Component {
   };
 
   handleZipCode = inputZip => {
+    this.setState({ loaderIsRendered: true });
     window
       .fetch(
         `https://api.openweathermap.org/data/2.5/forecast?zip=${inputZip},us&APPID=${
@@ -32,7 +34,8 @@ class InfoForm extends Component {
           console.log(`data.cod: ${data.cod}`);
           this.setState({ formHasError: true });
         } else {
-          this.props.addDataToState(data);
+          this.setState({ loaderIsRendered: false });
+          this.props.addDataToState(data, inputZip);
         }
       })
       .catch(err => console.log(err));
@@ -42,19 +45,23 @@ class InfoForm extends Component {
     return (
       <div className="info-form">
         <Segment>
-          <Form error>
-            <Form.Field>
-              <label>Enter Your 5 Digit Jobsite ZIP Code</label>
-              <input placeholder="e.g.: 90210" onChange={this.handleChange} />
-              {this.state.formHasError && (
-                <Message
-                  error
-                  header="Not a Valid ZIP Code"
-                  content="Please re-enter."
-                />
-              )}
-            </Form.Field>
-          </Form>
+          {this.state.loaderIsRendered ? (
+            <Loader active />
+          ) : (
+            <Form error>
+              <Form.Field>
+                <label>Enter Your 5 Digit Jobsite ZIP Code</label>
+                <input placeholder="e.g.: 90210" onChange={this.handleChange} />
+                {this.state.formHasError && (
+                  <Message
+                    error
+                    header="Not a Valid ZIP Code"
+                    content="Please re-enter."
+                  />
+                )}
+              </Form.Field>
+            </Form>
+          )}
         </Segment>
       </div>
     );
