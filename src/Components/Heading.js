@@ -20,9 +20,15 @@ class Heading extends Component {
           <Header
             as="h2"
             inverted
-            style={{ paddingBottom: "3em", paddingTop: "1em" }}
+            style={{
+              paddingBottom: "3em",
+              paddingTop: "1em",
+              paddingLeft: "3em",
+              paddingRight: "3em"
+            }}
           >
-            Get accurate rainfall predictions for your job site.
+            Get accurate rainfall predictions for your job site so you can plan
+            your SWPPP.
           </Header>
         </div>
       </div>

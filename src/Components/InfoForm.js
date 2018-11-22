@@ -32,7 +32,7 @@ class InfoForm extends Component {
         console.log(data);
         if (data.cod === "404") {
           console.log(`data.cod: ${data.cod}`);
-          this.setState({ formHasError: true });
+          this.setState({ formHasError: true, loaderIsRendered: false });
         } else {
           this.setState({ loaderIsRendered: false });
           this.props.addDataToState(data, inputZip);
